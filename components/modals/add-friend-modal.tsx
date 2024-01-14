@@ -22,6 +22,7 @@ import { Frown, Loader2, Search, SearchX } from "lucide-react";
 import UserSearchItem from "./addFriend/userSearchItem";
 import { useToast } from "../ui/use-toast";
 import { useDebouncedCallback } from 'use-debounce';
+import { UserPublic } from "@/types/extendedModels";
 
 
 
@@ -34,7 +35,7 @@ export const AddFriendModal = () => {
     const isModalOpen = isOpen && type === "AddFriend";
 
 
-    const [users, setUsers] = useState<Omit<User, 'password'>[] | null>([])
+    const [users, setUsers] = useState<UserPublic[] | null>([])
     const [query, setQuery] = useState<string>("");
     const [trigger, setTrigger] = useState<boolean>(false)
     const [isSearching, setIsSearching] = useState<boolean>(false);

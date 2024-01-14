@@ -2,11 +2,11 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import { FriendWithConversation } from "@/types/extendedModels";
+import { FriendWithConversation, UserPublic } from "@/types/extendedModels";
 import { Friend_Status, User } from "@prisma/client";
 
 type returnData = {
-    queryUsers: Omit<User, 'password'>[] | null;
+    queryUsers: UserPublic[] | null;
     error?: string
 }
 

@@ -5,7 +5,11 @@ export type FriendWithConversation = Omit<User, "password"> & {
     conversations: (Conversation & { messages: Message[] })[],
 }
 
-export type UserPublic = Omit<User, 'password'>
+export type UserPublic = {
+    id: string;
+    email: string;
+    name: string
+}
 
 
 export type MessageWithSender = Message & {

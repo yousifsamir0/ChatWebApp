@@ -1,5 +1,6 @@
 import { useToast } from "@/components/ui/use-toast";
 import { addFriend } from "@/lib/actions/auth/add-friend";
+import { UserPublic } from "@/types/extendedModels";
 import { User } from "@prisma/client"
 import axios from "axios";
 import { Loader2, UserPlus2 } from "lucide-react";
@@ -7,7 +8,7 @@ import Image from "next/image"
 import { useState } from "react";
 
 
-function UserSearchItem({ user, trigger }: { trigger: () => void, user: Omit<User, 'password'> }) {
+function UserSearchItem({ user, trigger }: { trigger: () => void, user: UserPublic }) {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { toast } = useToast();
