@@ -1,0 +1,10 @@
+- profile linked to user that has profile picture and this is interface to others
+
+- initial page
+
+- friend list if empty
+
+
+
+
+

@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define the User model
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  // Add other user-related fields here
+  groupOwned    Conversation[] @relation("ownerRel")
+  conversations Conversation[]
+  messagesSent  Message[]
+  friends       Friends[]      @relation("user1Friend") //that me in user1Id
+  friendsOf     Friends[]      @relation("user2Friend") // that me in user2Id
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Message {
+  id             String @id @default(uuid())
+  senderId       String
+  conversationId String
+  content        String
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation(fields: [senderId], references: [id])
+  timestamp    DateTime     @default(now())
+}
+
+model Conversation {
+  id      String  @id @default(uuid())
+  isGroup Boolean @default(false)
+  ownerId String?
+
+  owner      User?    @relation("ownerRel", fields: [ownerId], references: [id])
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+
+  users    User[]
+  messages Message[]
+}
+
+model Friends {
+  user1Id String
+  user2Id String
+  status  Friend_Status
+  user1   User          @relation("user1Friend", fields: [user1Id], references: [id])
+  user2   User          @relation("user2Friend", fields: [user2Id], references: [id])
+
+  @@unique([user1Id, user2Id])
+}
+
+enum Friend_Status {
+  PENDING
+  ESTABLISHED
+}
