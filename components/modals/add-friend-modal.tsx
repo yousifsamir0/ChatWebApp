@@ -109,7 +109,7 @@ export const AddFriendModal = () => {
                     <ScrollArea className="mt-8 max-h-[420px] flex flex-col justify-center items-center ">
                         {users && (
                             users.map((user) => (
-                                <UserSearchItem trigger={() => { setTrigger(true) }} user={user} />
+                                <UserSearchItem key={user.id} trigger={() => { setTrigger(true) }} user={user} />
                             ))
                         )}
                         {!users &&
