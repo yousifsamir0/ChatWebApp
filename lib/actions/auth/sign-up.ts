@@ -16,9 +16,7 @@ export const signup = async (values: z.infer<typeof signUpSchema>) => {
     const validation = signUpSchema.safeParse({
         name: values.name,
         email: values.email,
-        confirmEmail: values.confirmEmail,
         password: values.password,
-        confirmPassword: values.confirmPassword,
     })
     if (!validation.success) {
         return {
