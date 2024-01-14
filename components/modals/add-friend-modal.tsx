@@ -73,6 +73,8 @@ export const AddFriendModal = () => {
         else if (!isSearching)
             debouncedCallback(search);
 
+        return () => { }
+
     }, [query, trigger])
 
     const handleClose = () => {
@@ -115,10 +117,10 @@ export const AddFriendModal = () => {
                         {!users &&
                             (
                                 <div className="flex flex-col gap-2 justify-center items-center bg-[#F5F6FA] py-4 rounded-md">
-                                    <div className="  ">
+                                    <div >
                                         <Frown className="size-7 text-gray-500" />
                                     </div>
-                                    <h1>Sorry, we could't find any results!</h1>
+                                    <h1>Sorry, we could not find any results!</h1>
                                 </div>
                             )
                         }
